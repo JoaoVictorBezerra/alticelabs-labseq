@@ -24,7 +24,7 @@ public class LabSeqController {
     @GET
     @Path("/{n}")
     public Response computeLabSeq(@PathParam("n") int termNumber) {
-        logger.info("[computeLabSeq]:: Incoming request");
+        logger.infof("[computeLabSeq]:: Incoming request with term number %d", termNumber);
         var result = labseqService.computeLabSeq(termNumber);
         return Response
                 .ok(new ApiResponse<>(result, "Successfully calculated", true))
