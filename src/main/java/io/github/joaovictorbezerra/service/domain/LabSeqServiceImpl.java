@@ -1,6 +1,7 @@
 package io.github.joaovictorbezerra.service.domain;
 
 import io.github.joaovictorbezerra.constants.api.ApiConstants;
+import io.github.joaovictorbezerra.exception.exceptions.NonPositiveTermException;
 import io.github.joaovictorbezerra.service.LabSeqService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -30,7 +31,7 @@ public class LabSeqServiceImpl implements LabSeqService {
 
     public BigInteger computeLabSeq(int termNumber) {
         if (termNumber < 0) {
-            throw new IllegalArgumentException("Invalid term number: " + termNumber);
+            throw new NonPositiveTermException("Invalid term number: " + termNumber);
         }
 
         BigInteger a = BigInteger.ZERO, b = BigInteger.ONE, c = BigInteger.ZERO, d = BigInteger.ONE;
