@@ -7,6 +7,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
+import java.time.Duration;
+
+import static org.junit.jupiter.api.Assertions.assertTimeout;
 
 @QuarkusTest
 public class LabSeqServiceTest {
@@ -27,5 +30,14 @@ public class LabSeqServiceTest {
         Assertions.assertThrows(RuntimeException.class,
                 () -> labSeqService.computeLabSeq(negativeTerm)
         );
+    }
+
+    @Test
+    @DisplayName("Should compute value less than 10 seconds")
+    public void testPerformanceWithLargeInput() {
+        int TERM_SIZE_FOR_PERFORMANCE_TESTING = 100000;
+        assertTimeout(Duration.ofSeconds(10),
+                () -> labSeqService.computeLabSeq(TERM_SIZE_FOR_PERFORMANCE_TESTING));
+
     }
 }
