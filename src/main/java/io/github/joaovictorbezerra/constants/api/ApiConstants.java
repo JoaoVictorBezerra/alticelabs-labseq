@@ -7,4 +7,8 @@ public final class ApiConstants {
 
     // Services
     public static final String LABSEQ_SERVICE_IMPL = "labseqServiceImpl";
+
+    // Endpoints
+    public static final String LABSEQ_ENDPOINT = "/labseq";
+
 }
