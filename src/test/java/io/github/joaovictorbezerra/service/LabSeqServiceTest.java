@@ -19,4 +19,13 @@ public class LabSeqServiceTest {
         var result = labSeqService.computeLabSeq(10);
         Assertions.assertEquals(BigInteger.valueOf(3), result);
     }
+
+    @Test
+    @DisplayName("Should display non-positive term exception")
+    public void throwExceptionIfNonPositiveTerm() {
+        int negativeTerm = -5;
+        Assertions.assertThrows(RuntimeException.class,
+                () -> labSeqService.computeLabSeq(negativeTerm)
+        );
+    }
 }

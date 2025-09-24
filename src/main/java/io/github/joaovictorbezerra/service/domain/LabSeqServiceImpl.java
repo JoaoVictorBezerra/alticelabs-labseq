@@ -29,6 +29,10 @@ public class LabSeqServiceImpl implements LabSeqService {
 
 
     public BigInteger computeLabSeq(int termNumber) {
+        if (termNumber < 0) {
+            throw new IllegalArgumentException("Invalid term number: " + termNumber);
+        }
+
         BigInteger a = BigInteger.ZERO, b = BigInteger.ONE, c = BigInteger.ZERO, d = BigInteger.ONE;
         BigInteger result = BigInteger.ZERO;
 
