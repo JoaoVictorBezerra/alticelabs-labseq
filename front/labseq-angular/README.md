@@ -1,59 +1,120 @@
-# LabseqAngular
+# Frontend - LabSeq Angular
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.6.
+## What's This?
 
-## Development server
+A modern, responsive Angular application that provides a clean interface for calculating the LabSeq sequence. Built with the latest Angular features!
 
-To start a local development server, run:
+## Project Structure
 
-```bash
-ng serve
+```
+src/app/
+├── app.ts              # Main application component
+├── app.html            # Main template
+├── app.css             # Global styles
+├── app.routes.ts       # Routing configuration
+├── models/             # TypeScript interfaces
+├── service/            # API services
+└── utils/              # Utility functions
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Tech Stack
 
-## Code scaffolding
+- **Angular 20** - Latest Angular framework
+- **TypeScript 5.8** - Type-safe JavaScript
+- **RxJS 7.8** - Reactive programming
+- **Angular Forms** - Form handling and validation
+- **Angular Router** - Client-side routing
+- **Angular CLI** - Development tooling
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Getting Started
 
-```bash
-ng generate component component-name
-```
+### Prerequisites
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- **Node.js 18+** (LTS recommended)
+- **npm** or **yarn** as package manager
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+### Development Setup
 
 ```bash
-ng build
+# Navigate to frontend directory
+cd front/labseq-angular
+
+# Install dependencies
+npm install
+
+# Start development server
+npm start
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+The application will be available at `http://localhost:4200`
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+### Production Build
 
 ```bash
-ng test
+# Create production build
+npm run build
+
+# Build artifacts will be stored in the `dist/` directory
 ```
 
-## Running end-to-end tests
+## Features
 
-For end-to-end (e2e) testing, run:
+### LabSeq Calculator
+- **Real-time calculation** of the LabSeq sequence
+- **Input validation** with user-friendly error messages
+- **BigInt support** for large numbers
+- **Loading states** for better UX
+- **Error handling** with detailed feedback
+
+## Available Scripts
 
 ```bash
-ng e2e
+# Development server with hot reload
+npm start
+
+# Production build
+npm run build
+
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Code Structure
 
-## Additional Resources
+### Main Component (`app.ts`)
+The main application component handles:
+- User input validation
+- API communication
+- Error state management
+- Loading states
+- Result display
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+### Service Layer (`service/labseq.ts`)
+- **HTTP client** for API communication
+- **Error handling** with RxJS operators
+- **Type-safe** API responses
+
+### Utility Functions (`utils/validation-utils.ts`)
+- **Input validation** helpers
+- **Number formatting** utilities
+- **Error message** generators
+
+## API Integration
+
+### Backend Communication
+The frontend communicates with the Quarkus backend:
+
+```typescript
+// API endpoint configuration
+private baseUrl = 'http://localhost:8080';
+
+// HTTP service method
+getLabSeq(term: number): Observable<ApiResponse<BigInt>> {
+  return this.http.get<ApiResponse<BigInt>>(`${this.baseUrl}/labseq/${term}`);
+}
+```
+
+### Error Handling
+Comprehensive error handling for:
+- **Network errors** (connection issues)
+- **Server errors** (5xx responses)
+- **Client errors** (4xx responses)
+- **Validation errors** (input validation)

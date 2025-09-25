@@ -1,62 +1,141 @@
-# labseq
+# Technical Test - LabSeq Calculator
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+## What's This About?
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+This project is a web application for calculating the LabSeq sequence, built as part of a technical assessment. It's got a Java backend (Quarkus) and an Angular frontend working together.
 
-## Running the application in dev mode
+## The LabSeq Sequence
 
-You can run your application in dev mode that enables live coding using:
+The LabSeq sequence is defined by these rules:
+- `l(0) = 0`
+- `l(1) = 1` 
+- `l(2) = 0`
+- `l(3) = 1`
+- `l(n) = l(n-4) + l(n-3)` for n ≥ 4
 
-```shell script
+## Project Structure
+
+```
+labseq/
+├── backend/          # Java REST API (Quarkus)
+├── front/           # Angular frontend
+└── docker-compose.yml # Containerization setup
+```
+
+## Tech Stack
+
+### Backend
+- **Java 21** with **Quarkus 3.27.0**
+- **RESTEasy** for REST APIs
+- **Hibernate Validator** for validation
+- **OpenAPI** for documentation
+- **ConcurrentHashMap** for caching
+
+### Frontend
+- **Angular 20** with **TypeScript**
+- **RxJS** for reactive programming
+- **Modern CSS** with responsive design
+- **BigInt** for large number support
+
+## Getting Started
+
+### Option 1: Docker (Easiest Way)
+
+```bash
+# Clone the repo
+git clone https://github.com/JoaoVictorBezerra/alticelabs-labseq.git
+cd labseq
+
+# Fire it up with Docker Compose
+docker-compose up --build
+```
+
+Once it's running:
+- Backend will be at: `http://localhost:8080`
+- Frontend will be at: `http://localhost:4200`
+
+### Option 2: Manual Setup
+
+#### Backend
+
+```bash
+cd backend
+
+# Make sure you have Java 21 installed
+java --version
+
+# Run in development mode
 ./mvnw quarkus:dev
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
+#### Frontend
 
-## Packaging and running the application
+```bash
+cd front/labseq-angular
 
-The application can be packaged using:
+# Install dependencies
+npm install
 
-```shell script
-./mvnw package
+# Start the dev server
+npm start
 ```
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+## API Documentation
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+Once the backend is running, you can check out the interactive API docs at:
+`http://localhost:8080/q/swagger-ui`
 
-If you want to build an _über-jar_, execute the following command:
+### Available Endpoints
 
-```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
+- **GET** `/labseq/{n}` - Calculates the nth term of the LabSeq sequence
+- **GET** `/health` - Health check endpoint
+
+### Example Usage
+
+```bash
+curl http://localhost:8080/labseq/10
 ```
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
-
-## Creating a native executable
-
-You can create a native executable using:
-
-```shell script
-./mvnw package -Dnative
+Response:
+```json
+{
+  "data": 2,
+  "message": "Successfully calculated",
+  "success": true
+}
 ```
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
+## What's Under the Hood
 
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
+- **Smart caching**: Cache system for better performance
+- **Big number support**: Uses BigInt for large calculations
+- **Modern UI**: Responsive Angular interface
+- **Docker ready**: Easy deployment with containers
+- **Input validation**: Proper error handling and validation
+- **Well tested**: Comprehensive unit test coverage
+
+## Running Tests
+
+### Backend Tests
+```bash
+cd backend
+./mvnw test
 ```
 
-You can then execute your native executable with: `./target/labseq-1.0-SNAPSHOT-runner`
+## Technical Highlights
 
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
+### Performance
+- Iterative implementation to avoid stack overflow
+- ConcurrentHashMap cache for thread-safe operations
+- BigInteger support for arbitrarily large numbers
 
-## Provided Code
+### Architecture
+- Backend: Layered architecture concepts
+- Frontend: Well-structured services.
+- Communication: REST API with robust error handling
 
-### REST
+### Validation
+- Backend input validation (non-negative numbers)
+- Frontend form validation
+- Network and server error handling
 
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)

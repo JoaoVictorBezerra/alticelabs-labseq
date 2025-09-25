@@ -11,8 +11,8 @@ RUN mvn package
 FROM eclipse-temurin:21-jre
 WORKDIR /work
 
-COPY --from=build /app/target/quarkus-app /work/altice-labseq
+COPY --from=build /app/target/quarkus-app /work/alticelabs-labseq
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "/work/altice-labseq/quarkus-run.jar"]
+ENTRYPOINT ["java", "-jar", "/work/alticelabs-labseq/quarkus-run.jar"]
