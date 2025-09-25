@@ -9,8 +9,8 @@ import jakarta.inject.Named;
 import org.jboss.logging.Logger;
 
 import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 @ApplicationScoped
 @Named(ApiConstants.LABSEQ_SERVICE_IMPL)
@@ -19,42 +19,49 @@ public class LabSeqServiceImpl implements LabSeqService {
     @Inject
     Logger log;
 
-    private final Map<Integer, BigInteger> cache = new HashMap<>();
+    private final ConcurrentMap<Integer, BigInteger> cache = new ConcurrentHashMap<>();
 
-    private final Map<Integer, BigInteger> baseValues = Map.of(
-            0, BigInteger.ONE,
-            1, BigInteger.ONE,
-            2, BigInteger.ZERO,
-            3, BigInteger.ZERO
-    );
-
+    public LabSeqServiceImpl() {
+        cache.put(0, BigInteger.ZERO);
+        cache.put(1, BigInteger.ONE);
+        cache.put(2, BigInteger.ZERO);
+        cache.put(3, BigInteger.ONE);
+    }
 
     public BigInteger computeLabSeq(int termNumber) {
-        if (termNumber < 0) {
+        if (termNumber < 0)
             throw new NonPositiveTermException("Invalid term number: " + termNumber);
-        }
 
-        BigInteger a = BigInteger.ZERO, b = BigInteger.ONE, c = BigInteger.ZERO, d = BigInteger.ONE;
-        BigInteger result = BigInteger.ZERO;
-
-        if (cache.containsKey(termNumber)) {
+        var cachedResult = cache.get(termNumber);
+        if (cachedResult != null) {
             log.infof("Returned value %d from cache. Position %d", cache.get(termNumber), termNumber);
-            return cache.get(termNumber);
+            return cachedResult;
         }
 
-        if (termNumber <= 3) return baseValues.get(termNumber);
+        BigInteger result = this.computeWithCaching(termNumber);
+        log.infof("Computed new value %d for position %d", result, termNumber);
+
+        return result;
+    }
+
+    private BigInteger computeWithCaching(int termNumber) {
+        BigInteger
+                a = BigInteger.ZERO,
+                b = BigInteger.ONE,
+                c = BigInteger.ZERO,
+                d = BigInteger.ONE,
+                result = BigInteger.ZERO;
 
         for (int i = 4; i <= termNumber; i++) {
             result = a.add(b);
-
             a = b;
             b = c;
             c = d;
             d = result;
         }
 
-        cache.put(termNumber, result);
-
+        BigInteger finalResult = result;
+        cache.computeIfAbsent(termNumber, k -> finalResult);
         return result;
     }
 }
