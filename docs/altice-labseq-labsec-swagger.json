@@ -1,0 +1,51 @@
+{
+   "openapi":"3.1.0",
+   "paths":{
+      "/":{
+         "get":{
+            "responses":{
+               "200":{
+                  "description":"OK"
+               }
+            },
+            "summary":"Health Check",
+            "tags":[
+               "Api Controller"
+            ]
+         }
+      },
+      "/labseq/{n}":{
+         "get":{
+            "parameters":[
+               {
+                  "name":"n",
+                  "in":"path",
+                  "required":true,
+                  "schema":{
+                     "type":"integer",
+                     "format":"int32"
+                  }
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"OK"
+               }
+            },
+            "summary":"Compute Lab Seq",
+            "tags":[
+               "Lab Seq Controller"
+            ]
+         }
+      }
+   },
+   "info":{
+      "title":"Altice LabSeq",
+      "version":"1.0.0",
+      "description":"Altice LabSeq Documentation",
+      "contact":{
+         "name":"Joao Victor Bezerra",
+         "email":"dev.joaovictor@hotmail.com"
+      }
+   }
+}

@@ -1,0 +1,47 @@
+<div class="app-container">
+  <div class="main-content">
+    <header class="header">
+      <h1 class="title">{{ title() }}</h1>
+      <p class="subtitle">Calculate LabSeq algorithm values with precision 🎉</p>
+    </header>
+
+    <div class="calculator-section">
+      <div class="form-container">
+        <div class="input-group">
+          <label for="term-input" class="input-label">Enter a term number:</label>
+          <input 
+            id="term-input"
+            type="number" 
+            [(ngModel)]="inputValue"
+            placeholder="e.g., 5"
+            class="term-input"
+            [disabled]="isLoading"
+            min="0"
+          >
+        </div>
+        
+        <button 
+          class="calculate-btn"
+          (click)="getLabSeq(parseInt(inputValue))"
+          [disabled]="!inputValue || isLoading"
+        >
+          <span *ngIf="!isLoading" class="btn-text">Calculate</span>
+          <span *ngIf="isLoading" class="loading-content">
+            <span class="loading-spinner">⏳</span>
+            <span class="loading-text">Calculating...</span>
+          </span>
+        </button>
+      </div>
+
+      <div class="result-container" *ngIf="term !== undefined">
+        <div class="result-label">Result:</div>
+        <div class="result-value">{{ term }}</div>
+      </div>
+
+      <div class="error-container" *ngIf="errorMessage">
+        <div class="error-message">{{ errorMessage }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+<router-outlet />
