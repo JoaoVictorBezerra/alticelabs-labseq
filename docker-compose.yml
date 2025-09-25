@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  alticelabs-front:
+    image: alticelabs-angular:latest
+    build:
+      context: ./front/labseq-angular
+    ports:
+      - "4200:80"
+    depends_on:
+      - alticelabs-quarkus
+  alticelabs-quarkus:
+    image: alticelabs-quarkus:latest
+    build:
+      context: ./backend/
+    ports:
+      - "8080:8080"
