@@ -122,12 +122,6 @@ cd backend
 ./mvnw test
 ```
 
-### Frontend Tests
-```bash
-cd front/labseq-angular
-npm test
-```
-
 ## Technical Highlights
 
 ### Performance
